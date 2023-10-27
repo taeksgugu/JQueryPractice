@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css"/>
+<style type="text/css">
+	.poster{width:150px; height:150px;}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(function() {
+	
+	refreshPage();
+	var html = "";
+    var totalPrice = 0;
+    for(var key   in   localStorage){
+        if(key=='length') break;
+
+        var data = localStorage.getItem(key).split(",");
+        // 이미지, 품번, title, 가격, 삭제버튼 순 추가
+        html +='<tr><td align="center"><img class=poster src='+data[1]+'></td><td align="center">'+key+
+               '</td><td align="center">'+data[0]+'</td><td align="center">'+data[2]+
+               '</td><td align="center"><button id=deleteCart value='+key+'>삭제</button></td></tr>';
+        totalPrice +=  parseInt(data[2]);
+    }//for
+    $('#content').html(html);
+    $('#price').html("총 주문가격 "+totalPrice);
+    
+    
+    $('#content').on('click','#deleteCart', deleteStorage)
+});//ready
+
+function refreshPage() {
+	var html = "";
+    var totalPrice = 0;
+    for(var key   in   localStorage){
+        if(key=='length') break;
+
+        var data = localStorage.getItem(key).split(",");
+        // 이미지, 품번, title, 가격, 삭제버튼 순 추가
+        html +='<tr><td align="center"><img class=poster src='+data[1]+'></td><td align="center">'+key+
+               '</td><td align="center">'+data[0]+'</td><td align="center">'+data[2]+
+               '</td><td align="center"><button id=deleteCart value='+key+'>삭제</button></td></tr>';
+        totalPrice +=  parseInt(data[2]);
+    }//for
+    $('#content').html(html);
+    $('#price').html("총 주문가격 "+totalPrice);
+}
+
+function deleteStorage() {
+	var yn = confirm($(this).val()+"을 정말로 삭제하시겠습니까?");
+	if(yn){
+		localStorage.removeItem($(this).val());
+		refreshPage();
+	}
+	
+	
+}
+</script>
+</head>
+<body>
+<article class="main">
+		<section>
+			<table width="80%"  align="center"  >
+			<caption class="caption">찜 리스트</caption>
+			<thead>
+				<tr><th>이미지</th><th>상품번호</th><th>상품이름</th><th>가격</th><th>삭제</th></tr>
+			</thead>
+			<tbody id="content">
+			<!-- localStorage 안의 데이터 출력 -->
+			</tbody>
+			</table>
+		</section>
+		<section  class="toalprice" id="price">
+			
+		</section>
+		<section class="link">
+			<table align="center">
+			<tr><td align="center">
+				<a href="">주문하러 가기</a> 
+				<a href="index.html">DVD 목록</a> 
+			</td></tr>
+			</table>
+		</section>
+		</article>
+</body>
+</html>
